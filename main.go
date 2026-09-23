@@ -31,10 +31,14 @@ func main() {
 	fmt.Println(words)
 	fmt.Println("-----------------------------------------------------------------")
 	for i := 0; i < len(words); i++ {
-		if words[i] == "a" {
+		if words[i] == "a" || words[i] == "A" {
 			//( words[i+1][0] == 'a' || words[i+1][0] == 'e' || words[i+1][0] == 'i' || words[i+1][0] == 'o' || words[i+1][0] == 'u' || words[i+1][0] == 'A' || words[i+1][0] == 'E' || words[i+1][0] == 'I' || words[i+1][0] == 'O' || words[i+1][0] == 'U' || words[i+1][0] == 'h' || words[i+1][0] == 'H')
 			if len(words[i+1]) > 0 && strings.ContainsRune("aeiouAEIOUhH", rune(words[i+1][0])) {
-				words[i] = "an"
+				if words[i] == "A" {
+					words[i] = "An"
+				} else {
+					words[i] = "an"
+				}
 			}
 		}
 		//////////////////////////uuuuuuupppppppp//////////////////
@@ -126,6 +130,12 @@ func main() {
 	}
 	final := strings.Join(results, " ")
 	final = re.ReplaceAllString(final, "$1")
+
+	punctAfter := regexp.MustCompile(`([.,!?:;])([^\s.,!?:;])`)
+	final = punctAfter.ReplaceAllString(final, "$1 $2")
+
+	quotePair := regexp.MustCompile(`'\s*(.*?)\s*'`)
+	final = quotePair.ReplaceAllString(final, "'$1'")
 
 	fmt.Println(final)
 }
