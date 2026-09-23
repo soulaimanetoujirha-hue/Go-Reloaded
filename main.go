@@ -136,6 +136,9 @@ func main() {
 
 	quotePair := regexp.MustCompile(`'\s*(.*?)\s*'`)
 	final = quotePair.ReplaceAllString(final, "'$1'")
-
-	fmt.Println(final)
+	err = os.WriteFile(argms[1], []byte(final), 0644)
+	if err != nil {
+		fmt.Println("Error writing to file:", err)
+		os.Exit(1)
+	}
 }
