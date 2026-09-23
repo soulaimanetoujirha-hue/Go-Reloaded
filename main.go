@@ -31,6 +31,12 @@ func main() {
 	fmt.Println(words)
 	fmt.Println("-----------------------------------------------------------------")
 	for i := 0; i < len(words); i++ {
+		if words[i] == "a" {
+			//( words[i+1][0] == 'a' || words[i+1][0] == 'e' || words[i+1][0] == 'i' || words[i+1][0] == 'o' || words[i+1][0] == 'u' || words[i+1][0] == 'A' || words[i+1][0] == 'E' || words[i+1][0] == 'I' || words[i+1][0] == 'O' || words[i+1][0] == 'U' || words[i+1][0] == 'h' || words[i+1][0] == 'H')
+			if len(words[i+1]) > 0 && strings.ContainsRune("aeiouAEIOUhH", rune(words[i+1][0])) {
+				words[i] = "an"
+			}
+		}
 		//////////////////////////uuuuuuupppppppp//////////////////
 		if words[i] == "(up)" {
 			words[i-1] = strings.ToUpper(words[i-1])
@@ -88,6 +94,28 @@ func main() {
 				words[i] = ""
 				words[i+1] = ""
 			}
+		}
+		if words[i] == "(hex)" {
+			if len(words[i-1]) > 0 {
+				num, err := strconv.ParseInt(words[i-1], 16, 64)
+				if err != nil {
+					fmt.Println("Error hex converting number:", err)
+					os.Exit(1)
+				}
+				words[i-1] = strconv.FormatInt(num, 10)
+			}
+			words[i] = ""
+		}
+		if words[i] == "(bin)" {
+			if len(words[i-1]) > 0 {
+				num, err := strconv.ParseInt(words[i-1], 2, 64)
+				if err != nil {
+					fmt.Println("Error bin converting number:", err)
+					os.Exit(1)
+				}
+				words[i-1] = strconv.FormatInt(num, 10)
+			}
+			words[i] = ""
 		}
 	}
 	var results []string
