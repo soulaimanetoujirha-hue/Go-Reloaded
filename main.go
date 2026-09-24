@@ -19,7 +19,19 @@ func main() {
 		fmt.Println("Error reading file:", err)
 		os.Exit(1)
 	}
+
 	text := string(data)
+	final := processText(text)
+
+	err = os.WriteFile(argms[1], []byte(final), 0644)
+	if err != nil {
+		fmt.Println("Error writing to file:", err)
+		os.Exit(1)
+	}
+	fmt.Println("File written successfully:", argms[1])
+}
+
+func processText(text string) string {
 	re := regexp.MustCompile(`\s+([.,!?:;])`)
 	text = re.ReplaceAllString(text, "$1")
 
@@ -28,11 +40,8 @@ func main() {
 
 	words := strings.Fields(text)
 
-	fmt.Println(words)
-	fmt.Println("-----------------------------------------------------------------")
 	for i := 0; i < len(words); i++ {
 		if words[i] == "a" || words[i] == "A" {
-			//( words[i+1][0] == 'a' || words[i+1][0] == 'e' || words[i+1][0] == 'i' || words[i+1][0] == 'o' || words[i+1][0] == 'u' || words[i+1][0] == 'A' || words[i+1][0] == 'E' || words[i+1][0] == 'I' || words[i+1][0] == 'O' || words[i+1][0] == 'U' || words[i+1][0] == 'h' || words[i+1][0] == 'H')
 			if len(words[i+1]) > 0 && strings.ContainsRune("aeiouAEIOUhH", rune(words[i+1][0])) {
 				if words[i] == "A" {
 					words[i] = "An"
@@ -41,7 +50,6 @@ func main() {
 				}
 			}
 		}
-		//////////////////////////uuuuuuupppppppp//////////////////
 		if words[i] == "(up)" {
 			words[i-1] = strings.ToUpper(words[i-1])
 			words[i] = ""
@@ -59,7 +67,6 @@ func main() {
 				words[i+1] = ""
 			}
 		}
-		//////////////////////////loooooooowwwww//////////////////
 		if words[i] == "(low)" {
 			words[i-1] = strings.ToLower(words[i-1])
 			words[i] = ""
@@ -77,7 +84,6 @@ func main() {
 				words[i+1] = ""
 			}
 		}
-		//////////////////////////caaaappppppppp//////////////////
 		if words[i] == "(cap)" {
 			if len(words[i-1]) > 0 {
 				words[i-1] = strings.ToUpper(words[i-1][:1]) + words[i-1][1:]
@@ -122,6 +128,7 @@ func main() {
 			words[i] = ""
 		}
 	}
+
 	var results []string
 	for _, w := range words {
 		if w != "" {
@@ -136,9 +143,6 @@ func main() {
 
 	quotePair := regexp.MustCompile(`'\s*(.*?)\s*'`)
 	final = quotePair.ReplaceAllString(final, "'$1'")
-	err = os.WriteFile(argms[1], []byte(final), 0644)
-	if err != nil {
-		fmt.Println("Error writing to file:", err)
-		os.Exit(1)
-	}
+
+	return final
 }

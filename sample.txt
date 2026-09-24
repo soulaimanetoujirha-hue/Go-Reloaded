@@ -1,14 +1,1 @@
-this is a test (cap, 3) end
-hello world (up) today
-LOUD noise (low) here
-go is (up, 2) fun
-quiet please (low, 2) now
-single (cap) word
-1E (hex) files were added
-It has been 10 (bin) years
-There it was. A amazing rock!
-it (cap) was the best of times, it was the worst of times (up), it was the age of wisdom, it was the age of foolishness (cap, 6), it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of darkness, it was the spring of hope, IT WAS THE (low, 3) winter of despair.
-I was sitting over there ,and then BAMM !!
-I was thinking ... You were right
-I am exactly how they describe me: ' awesome '
-As Elton John said: ' I am the most well-known homosexual in the world '
+it (cap) was the best of times, it was the worst of times (up) , it was the age of wisdom, it was the age of foolishness (cap, 6) , it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of darkness, it was the spring of hope, IT WAS THE (low, 3) winter of despair.
