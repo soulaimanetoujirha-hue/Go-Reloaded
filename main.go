@@ -32,16 +32,19 @@ func main() {
 }
 
 func processText(text string) string {
-	re := regexp.MustCompile(`\s+([.,!?:;])`)
+	re := regexp.MustCompile(`\s+([.,!?:;])`) // "hi ." -> "hi."
 	text = re.ReplaceAllString(text, "$1")
 
-	detachPunct := regexp.MustCompile(`\)([^\s)])`)
+	detachPunct := regexp.MustCompile(`\)([^\s)])`) // ")a" -> ") a"
 	text = detachPunct.ReplaceAllString(text, ") $1")
 
 	words := strings.Fields(text)
 
 	for i := 0; i < len(words); i++ {
 		if words[i] == "a" || words[i] == "A" {
+			//( words[i+1][0] == 'a' || words[i+1][0] == 'e' || words[i+1][0] == 'i' || words[i+1][0] == 'o' ||
+			// words[i+1][0] == 'u' || words[i+1][0] == 'A' || words[i+1][0] == 'E' || words[i+1][0] == 'I' ||
+			// words[i+1][0] == 'O' || words[i+1][0] == 'U' || words[i+1][0] == 'h' || words[i+1][0] == 'H')
 			if len(words[i+1]) > 0 && strings.ContainsRune("aeiouAEIOUhH", rune(words[i+1][0])) {
 				if words[i] == "A" {
 					words[i] = "An"
@@ -50,6 +53,7 @@ func processText(text string) string {
 				}
 			}
 		}
+		////////////////////uppppppp////////////////////////
 		if words[i] == "(up)" {
 			words[i-1] = strings.ToUpper(words[i-1])
 			words[i] = ""
@@ -67,6 +71,7 @@ func processText(text string) string {
 				words[i+1] = ""
 			}
 		}
+		////////////////////lowwwwww////////////////////////
 		if words[i] == "(low)" {
 			words[i-1] = strings.ToLower(words[i-1])
 			words[i] = ""
@@ -84,6 +89,7 @@ func processText(text string) string {
 				words[i+1] = ""
 			}
 		}
+		////////////////////capppppp////////////////////////
 		if words[i] == "(cap)" {
 			if len(words[i-1]) > 0 {
 				words[i-1] = strings.ToUpper(words[i-1][:1]) + words[i-1][1:]
@@ -105,6 +111,7 @@ func processText(text string) string {
 				words[i+1] = ""
 			}
 		}
+		////////////////////heeexxxxxx////////////////////////
 		if words[i] == "(hex)" {
 			if len(words[i-1]) > 0 {
 				num, err := strconv.ParseInt(words[i-1], 16, 64)
@@ -116,6 +123,7 @@ func processText(text string) string {
 			}
 			words[i] = ""
 		}
+		////////////////////binnnnnn////////////////////////
 		if words[i] == "(bin)" {
 			if len(words[i-1]) > 0 {
 				num, err := strconv.ParseInt(words[i-1], 2, 64)
@@ -135,13 +143,13 @@ func processText(text string) string {
 			results = append(results, w)
 		}
 	}
-	final := strings.Join(results, " ")
+	final := strings.Join(results, " ") // join the words back into a single string
 	final = re.ReplaceAllString(final, "$1")
 
-	punctAfter := regexp.MustCompile(`([.,!?:;])([^\s.,!?:;])`)
+	punctAfter := regexp.MustCompile(`([.,!?:;])([^\s.,!?:;])`) // add a space after punctuation if it's followed by a non-space character
 	final = punctAfter.ReplaceAllString(final, "$1 $2")
 
-	quotePair := regexp.MustCompile(`'\s*(.*?)\s*'`)
+	quotePair := regexp.MustCompile(`'\s*(.*?)\s*'`) // remove extra spaces inside single quotes
 	final = quotePair.ReplaceAllString(final, "'$1'")
 
 	return final
